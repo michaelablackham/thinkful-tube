@@ -1,4 +1,42 @@
+* {
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+body {
+  background: #efefef;
+}
+
 .js-search-results {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.js-search-results > div {
+  width: 23%;
+  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  margin: 1% 1%;
+  text-align: center;
+}
+
+.js-search-results > div a {
+  color: #666;
+  display: block;
+  position: relative;
+  text-decoration: none;
+}
+
+.js-search-results > div img {
+  width: 100%;
+}
+
+.js-search-results > div a h2 {
+  margin: 0 0 20px;
+  width: 100%;
+  font-size: 1em;
 }

@@ -7,8 +7,8 @@ var YOUTUBE_WATCH_URL = 'https://www.youtube.com/watch?v=';
 var RESULT_HTML_TEMPLATE = (
   '<div>' +
     '<a class="js-result-link" href="" target="_blank">' +
-      '<img class="js-video-image" src="" alt=""/>' +
       '<h2 class="js-result-name"></h2>' +
+      '<img class="js-video-image" src="" alt=""/>' +
       '<p class="js-video-description"></p>' +
     '</a>' +
   '</div>'
@@ -40,7 +40,7 @@ function renderResult(result) {
   template.find(".js-result-name").text(result.snippet.channelTitle);
   template.find(".js-video-image").attr("src", result.snippet.thumbnails.high.url).attr('alt', result.snippet.channelTitle);
   template.find(".js-video-description").text(result.snippet.description);
-  console.log(result.snippet.thumbnails.high.url)
+
   return template;
 }
 

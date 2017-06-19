@@ -1,41 +1,58 @@
+//CONSTANTS for the page - search url and youtube api key
 var YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
-var API_KEY = 'AIzaSyBZXE0vm49KtEyqtucaDKCB_eAek7PNHB8'
+var API_KEY = 'AIzaSyBZXE0vm49KtEyqtucaDKCB_eAek7PNHB8';
+var YOUTUBE_WATCH_URL = 'https://www.youtube.com/watch?v=';
 
-
+//Template to be shown on the page after search if implemented
 var RESULT_HTML_TEMPLATE = (
   '<div>' +
-    '<h2>' +
-    '<a class="js-result-name" href="" target="_blank"></a> by <a class="js-user-name" href="" target="_blank"></a></h2>' +
-    '<p>Number of watchers: <span class="js-watchers-count"></span></p>' +
-    '<p>Number of open issues: <span class="js-issues-count"></span></p>' +
+    '<a class="js-result-link" href="" target="_blank">' +
+      '<img class="js-video-image" src="" alt=""/>' +
+      '<h2 class="js-result-name"></h2>' +
+      '<p class="js-video-description"></p>' +
+    '</a>' +
   '</div>'
 );
 
+//Getting data from the api
+//settings includes my URL needed for each one, api key, and various parameters needed for youtub
 function getDataFromApi(searchTerm, callback) {
-  var query = {
-    q: searchTerm + " in:name",
-    per_page: 5
-  }
-  $.getJSON(YOUTUBE_SEARCH_URL, query, callback);
+  var settings = {
+    url: YOUTUBE_SEARCH_URL,
+    data: {
+      part: 'snippet',
+      key: API_KEY,
+      q: searchTerm + " in:name",
+      maxResults: '12'
+    },
+    dataType: 'json',
+    type: 'GET',
+    success: callback
+  };
+  $.ajax(settings);
 }
 
-
+//Render the results on the page
+//this is where the page will use the template from above and append the information from the API output
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
-  template.find(".js-result-name").text(result.name).attr("href", result.html_url);
-  template.find(".js-user-name").text(result.owner.login).attr("href", result.owner.html_url);
-  template.find(".js-watchers-count").text(result.watchers_count);
-  template.find(".js-issues-count").text(result.open_issues);
+  template.find(".js-result-link").attr('href', YOUTUBE_WATCH_URL+result.id.videoId);
+  template.find(".js-result-name").text(result.snippet.channelTitle);
+  template.find(".js-video-image").attr("src", result.snippet.thumbnails.high.url).attr('alt', result.snippet.channelTitle);
+  template.find(".js-video-description").text(result.snippet.description);
+  console.log(result.snippet.thumbnails.high.url)
   return template;
 }
 
-function displayGitHubSearchData(data) {
+//This displayes the various renders items on to the full page
+function displayYoutubeData(data) {
   var results = data.items.map(function(item, index) {
     return renderResult(item);
   });
   $('.js-search-results').html(results);
 }
 
+//submits the keyword to be added to the query string
 function watchSubmit() {
   $('.js-search-form').submit(function(event) {
     event.preventDefault();
@@ -43,8 +60,9 @@ function watchSubmit() {
     var query = queryTarget.val();
     // clear out the input
     queryTarget.val("");
-    getDataFromApi(query, displayGitHubSearchData);
+    getDataFromApi(query, displayYoutubeData);
   });
 }
 
+// starts the whole process by firing the watch submit function
 $(watchSubmit);

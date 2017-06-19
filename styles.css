@@ -13,7 +13,7 @@ body {
 }
 
 .js-search-results > div {
-  width: 23%;
+  width: 14%;
   overflow: hidden;
   padding: 20px;
   box-sizing: border-box;
@@ -22,6 +22,31 @@ body {
   background: #fff;
   margin: 1% 1%;
   text-align: center;
+}
+
+@media (max-width: 1800px) {
+  .js-search-results > div {
+    width: 23%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .js-search-results > div {
+    width: 31%;
+  }
+}
+
+@media (max-width: 800px) {
+  .js-search-results > div {
+    width: 48%;
+  }
+}
+
+@media (max-width: 600px) {
+  .js-search-results > div {
+    width: 100%;
+    margin: 1% 0;
+  }
 }
 
 .js-search-results > div a {
@@ -39,4 +64,8 @@ body {
   margin: 0 0 20px;
   width: 100%;
   font-size: 1em;
+}
+
+.js-search-results > div a p {
+  font-size: .8em;
 }
